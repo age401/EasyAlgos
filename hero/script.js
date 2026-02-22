@@ -19,12 +19,12 @@
 
   // Parallax speed ratios per group (01 = farthest = fastest, 06 = closest = slowest)
   const PARALLAX_RATIOS = {
-    1: 0.80,
-    2: 0.60,
-    3: 0.50,
-    4: 0.40,
-    5: 0.20,
-    6: 0.10,
+    1: 2.00,
+    2: 1.60,
+    3: 1.00,
+    4: 0.70,
+    5: 0.40,
+    6: 0.20,
   };
 
   let entranceComplete = false;
