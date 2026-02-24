@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2560 1080">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        fill: none;
+      }
+
+      .cls-6 {
+        fill: url(#linear-gradient-4);
+      }
+
+      .cls-7 {
+        fill: url(#linear-gradient-3);
+      }
+
+      .cls-8 {
+        fill: url(#linear-gradient-5);
+      }
+
+      .cls-4 {
+        stroke: #f8f8ff;
+      }
+
+      .cls-4, .cls-5 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+
+      .cls-9 {
+        fill: url(#linear-gradient-8);
+      }
+
+      .cls-5 {
+        stroke: #f3f3ff;
+      }
+
+      .cls-10 {
+        fill: url(#linear-gradient-7);
+      }
+
+      .cls-11 {
+        fill: url(#linear-gradient-9);
+      }
+
+      .cls-12 {
+        fill: url(#linear-gradient-6);
+      }
+
+      .cls-13 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="913.05" y1="579.97" x2="820.76" y2="667.58" gradientTransform="translate(-430.21 447.8) rotate(-29.84)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fafaff"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="1672.2" y1="804.1" x2="1659.08" y2="827.84" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="2029.08" y1="539.13" x2="2027.08" y2="752.46" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-4" x1="416.87" y1="403.17" x2="387.04" y2="431.48" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-5" x1="893.2" y1="803.96" x2="844.68" y2="872.49" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-6" x1="1436.25" y1="724.14" x2="1457.58" y2="774.81" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-7" x1="1978.09" y1="397.08" x2="1891.42" y2="357.08" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-8" x1="1142.68" y1="931.06" x2="1078.02" y2="933.06" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-9" x1="1347.03" y1="978.41" x2="1319.82" y2="1026.42" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#linear-gradient"/>
+  </defs>
+  <g id="Rocks_B_xport" data-name="Rocks B xport">
+    <g>
+      <rect class="cls-3" width="2560" height="1080"/>
+      <g id="Rock_B01" data-name="Rock B01">
+        <polygon class="cls-2" points="538.31 611.82 572.01 625.34 693.14 628.49 740.7 590.83 737.01 490.93 635.72 447 546.63 484.35 512 562.93 538.31 611.82"/>
+        <polygon class="cls-13" points="561.68 568.15 512 562.93 538.31 611.82 572.01 625.34 693.14 628.49 740.7 590.83 634.74 492.52 561.68 568.15"/>
+        <polyline class="cls-4" points="561.68 568.15 634.31 492.77 634.15 447.01"/>
+        <line class="cls-4" x1="634.31" y1="492.77" x2="740.7" y2="590.83"/>
+        <polyline class="cls-4" points="512 562.93 561.68 568.15 572.01 625.34"/>
+        <polygon class="cls-5" points="538.31 611.82 572.01 625.34 693.14 628.49 740.7 590.83 737.01 490.93 635.72 447 546.63 484.35 512 562.93 538.31 611.82"/>
+      </g>
+      <g id="Rock_B03" data-name="Rock B03">
+        <polygon class="cls-2" points="1641 783 1641 808 1663 826 1677 801 1659 776 1641 783"/>
+        <polygon class="cls-1" points="1667.08 808 1676.93 800.9 1663 826 1667.08 808"/>
+        <polyline class="cls-4" points="1667.08 808 1657 783 1641 783"/>
+        <line class="cls-4" x1="1659" y1="776" x2="1657" y2="783"/>
+        <polyline class="cls-4" points="1677 801 1667.08 808 1663 826"/>
+        <polygon class="cls-5" points="1641 783 1641 808 1663 826 1677 801 1659 776 1641 783"/>
+      </g>
+      <g id="Rock_B05" data-name="Rock B05">
+        <polygon class="cls-2" points="1820.5 524 1787 580 1860.5 684 2010.5 708 2196.5 518 2075.5 411 1920.5 426 1869.5 510 1820.5 524"/>
+        <polygon class="cls-7" points="1860.5 684 1912.5 644 2000.5 640 2094.5 536 2196.5 518 2010.5 708 1860.5 684"/>
+        <polyline class="cls-4" points="1787 580 1863.5 561 1952.5 466 1920.5 426"/>
+        <polyline class="cls-4" points="1869.5 510 1863.5 561 1912.5 644 2000.5 640 2094.5 536 2196.5 518 2066.5 432 1952.5 466"/>
+        <line class="cls-4" x1="2066.5" y1="432" x2="2075.5" y2="411"/>
+        <line class="cls-4" x1="1912.5" y1="644" x2="1860.5" y2="684"/>
+        <line class="cls-4" x1="1952.5" y1="466" x2="2094.5" y2="536"/>
+        <line class="cls-4" x1="2000.5" y1="640" x2="2010.5" y2="708"/>
+        <polygon class="cls-5" points="1820.5 524 1787 580 1860.5 684 2010.5 708 2196.5 518 2075.5 411 1920.5 426 1869.5 510 1820.5 524"/>
+      </g>
+      <g id="Rock_B07" data-name="Rock B07">
+        <polygon class="cls-2" points="410 324 364 368 347 398 446 447 512 395 489.5 342 455 336 410 324"/>
+        <polygon class="cls-6" points="347 398 425 412 446 447 347 398"/>
+        <polyline class="cls-4" points="347 398 425 412 446 447"/>
+        <polyline class="cls-4" points="425 412 449 352 410 324"/>
+        <line class="cls-4" x1="449" y1="352" x2="489.5" y2="342"/>
+        <polygon class="cls-5" points="410 324 364 368 347 398 446 447 512 395 489.5 342 455 336 410 324"/>
+      </g>
+      <g id="Rock_B08" data-name="Rock B08">
+        <polygon class="cls-2" points="787 768.5 842 714.5 908 699.5 965 768.5 965 888 898 943.5 805 840.5 787 768.5"/>
+        <polygon class="cls-8" points="787 768.5 851 775.5 926 886.5 965 888 898 943.5 805 840.5 787 768.5"/>
+        <polyline class="cls-4" points="926 747.5 906 719.5 908 699.5"/>
+        <line class="cls-4" x1="906" y1="719.5" x2="842" y2="714.5"/>
+        <polyline class="cls-4" points="898 943.5 926 886.5 965 888"/>
+        <polyline class="cls-4" points="851 775.5 926 886.5 965 768.5 926 747.5 851 775.5 787 768.5"/>
+        <polygon class="cls-5" points="787 768.5 842 714.5 908 699.5 965 768.5 965 888 898 943.5 805 840.5 787 768.5"/>
+      </g>
+      <g id="Rock_B10" data-name="Rock B10">
+        <polygon class="cls-2" points="1415 791 1348 727 1388 703 1433 659 1475 703 1485.5 740.56 1459 779 1415 791"/>
+        <polygon class="cls-12" points="1416.75 791 1440 761 1459 713 1475 703 1485.5 740.56 1459 779 1416.75 791"/>
+        <polyline class="cls-4" points="1433 659 1459 713 1440 761 1416.75 791 1388 703"/>
+        <line class="cls-4" x1="1440" y1="761" x2="1459" y2="779"/>
+        <line class="cls-4" x1="1475" y1="703" x2="1459" y2="713"/>
+        <polygon class="cls-5" points="1415 791 1348 727 1388 703 1433 659 1475 703 1485.5 740.56 1459 779 1415 791"/>
+      </g>
+      <g id="Rock_B11" data-name="Rock B11">
+        <polygon class="cls-2" points="1906 369 1919 340 1976 304 2011 352 1987 396 1925 396 1919 381 1906 369"/>
+        <polygon class="cls-10" points="1906 369 1929 351 1987 396 1925 396 1919 381 1906 369"/>
+        <polyline class="cls-4" points="1906 369 1929 351 1987 396"/>
+        <line class="cls-4" x1="1929" y1="351" x2="1919" y2="381"/>
+        <polyline class="cls-4" points="1919 340 1946 327 1929 351 1925 396"/>
+        <line class="cls-4" x1="1976" y1="304" x2="1946" y2="327"/>
+        <polygon class="cls-5" points="1906 369 1919 340 1976 304 2011 352 1987 396 1925 396 1919 381 1906 369"/>
+      </g>
+      <g id="Rock_B13" data-name="Rock B13">
+        <polygon class="cls-2" points="1124.25 868.5 1092.25 890.5 1084.75 915.5 1107.25 949.5 1143.25 922.5 1136.25 886.5 1124.25 868.5"/>
+        <polygon class="cls-9" points="1084.75 915.5 1105.25 931.5 1143.25 922.5 1107.25 949.5 1084.75 915.5"/>
+        <polyline class="cls-4" points="1084.75 915.5 1105.25 931.5 1120.25 930.5 1143.25 922.5"/>
+        <polyline class="cls-4" points="1107.25 949.5 1105.25 931.5 1126.25 903.5 1121.25 875.5"/>
+        <polyline class="cls-4" points="1136.25 886.5 1121.25 875.5 1092.25 890.5"/>
+        <line class="cls-4" x1="1126.25" y1="903.5" x2="1138.47" y2="897.93"/>
+        <polygon class="cls-5" points="1124.25 868.5 1092.25 890.5 1084.75 915.5 1107.25 949.5 1143.25 922.5 1136.25 886.5 1124.25 868.5"/>
+      </g>
+      <g id="Rock_B15" data-name="Rock B15">
+        <polygon class="cls-2" points="1246.25 933.63 1296.49 886.13 1411.12 877 1476.43 942.77 1421.62 1017.66 1329.83 1040.5 1255.38 969.25 1246.25 933.63"/>
+        <polygon class="cls-11" points="1255.38 969.25 1272.28 950.07 1333.48 977.47 1421.62 1017.66 1329.83 1040.5 1255.38 969.25"/>
+        <polyline class="cls-4" points="1246.25 933.63 1272.28 950.07 1333.48 977.47 1421.62 1017.66 1447.2 945.05 1411.12 877 1361.34 901.21"/>
+        <polyline class="cls-4" points="1329.83 1040.5 1333.48 977.47 1361.34 901.21 1296.49 886.13"/>
+        <line class="cls-4" x1="1255.38" y1="969.25" x2="1272.28" y2="950.07"/>
+        <line class="cls-4" x1="1447.2" y1="945.05" x2="1476.43" y2="942.77"/>
+        <polygon class="cls-5" points="1246.25 933.63 1296.49 886.13 1411.12 877 1476.43 942.77 1421.62 1017.66 1329.83 1040.5 1255.38 969.25 1246.25 933.63"/>
+      </g>
+    </g>
+  </g>
+</svg>
