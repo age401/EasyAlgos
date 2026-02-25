@@ -475,3 +475,71 @@
     initProblem();
   }
 })();
+
+
+/* ═══════════════════════════════════════════════════
+   SECTION HEADER — Entrance animation
+   ═══════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  var TRIGGER_OFFSET    = '-180px';
+  var TRIGGER_THRESHOLD = 0;
+  var ENTER_CLASS       = 'sh-entered';
+
+  function initSectionHeaderEntrance() {
+    var headers = document.querySelectorAll('[data-section-header]');
+    if (!headers.length) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var el = entry.target;
+
+        if (entry.isIntersecting) {
+          if (!el.classList.contains(ENTER_CLASS)) {
+            el.classList.add(ENTER_CLASS);
+          }
+          return;
+        }
+
+        if (!el.classList.contains(ENTER_CLASS)) return;
+
+        var rect = el.getBoundingClientRect();
+        var exitedBelow = rect.top >= window.innerHeight;
+
+        if (exitedBelow) {
+          resetHeader(el);
+        }
+      });
+    }, {
+      threshold: [0, TRIGGER_THRESHOLD],
+      rootMargin: '0px 0px ' + TRIGGER_OFFSET + ' 0px'
+    });
+
+    headers.forEach(function (header) {
+      observer.observe(header);
+    });
+  }
+
+  function resetHeader(el) {
+    var children = el.querySelectorAll('[data-sh-badge],[data-sh-title],[data-sh-subtitle]');
+    children.forEach(function (child) {
+      child.style.transition = 'none';
+    });
+
+    el.classList.remove(ENTER_CLASS);
+
+    void el.offsetHeight;
+
+    children.forEach(function (child) {
+      child.style.removeProperty('transition');
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSectionHeaderEntrance);
+  } else {
+    initSectionHeaderEntrance();
+  }
+})();

@@ -70,6 +70,20 @@
   --problem-rock01-top: 1000px;
   --problem-rock02-top: 800px;
   --problem-rock03-top: 600px;
+
+  /* ── Section header entrance animation ── */
+  --sh-slide-distance:       40px;
+  --sh-badge-duration:       1s;
+  --sh-badge-delay:          0s;
+  --sh-badge-easing:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --sh-title-duration:       1s;
+  --sh-title-delay:          0.3s;
+  --sh-title-fade-easing:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --sh-title-slide-easing:   cubic-bezier(0.16, 1, 0.3, 1);
+  --sh-subtitle-duration:    1.8s;
+  --sh-subtitle-delay:       .4s;
+  --sh-subtitle-fade-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --sh-subtitle-slide-easing:cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
@@ -588,6 +602,56 @@ body {
 
 .problem-card--cursor-on .problem-card__cursor {
   opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION HEADER — Entrance animation
+   ═══════════════════════════════════════════════════ */
+
+.section-header__badge-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+[data-sh-badge],
+[data-sh-title],
+[data-sh-subtitle] {
+  will-change: opacity, transform;
+}
+
+[data-section-header]:not(.sh-entered) [data-sh-badge] {
+  opacity: 0;
+}
+
+[data-section-header]:not(.sh-entered) [data-sh-title] {
+  opacity: 0;
+  transform: translateY(var(--sh-slide-distance));
+}
+
+[data-section-header]:not(.sh-entered) [data-sh-subtitle] {
+  opacity: 0;
+  transform: translateY(var(--sh-slide-distance));
+}
+
+[data-section-header].sh-entered [data-sh-badge] {
+  opacity: 1;
+  transition: opacity var(--sh-badge-duration) var(--sh-badge-easing) var(--sh-badge-delay);
+}
+
+[data-section-header].sh-entered [data-sh-title] {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity   var(--sh-title-duration) var(--sh-title-fade-easing)  var(--sh-title-delay),
+    transform var(--sh-title-duration) var(--sh-title-slide-easing) var(--sh-title-delay);
+}
+
+[data-section-header].sh-entered [data-sh-subtitle] {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity   var(--sh-subtitle-duration) var(--sh-subtitle-fade-easing)  var(--sh-subtitle-delay),
+    transform var(--sh-subtitle-duration) var(--sh-subtitle-slide-easing) var(--sh-subtitle-delay);
 }
 
 /* ═══════════════════════════════════════════════════
