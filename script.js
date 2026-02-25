@@ -150,7 +150,7 @@
       if (bp === '2560' && width >= 1440) show = true;
       if (bp === '1440' && width >= 768 && width < 1440) show = true;
       if (bp === '768' && width < 768) show = true;
-      svg.style.display = show ? '' : 'none';
+      svg.style.display = show ? 'block' : 'none';
     });
   }
 
@@ -237,7 +237,7 @@
     PARALLAX: {
       '01': 0.20,
       '02': 0.50,
-      '03': 1.20,
+      '03': 0.80,
     },
 
     TRIGGER_VH_OFFSET: 0.80,

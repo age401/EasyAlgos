@@ -29,26 +29,6 @@
   --problem-cards-top: 547px;
   --problem-container-padding: 60px;
 
-  --problem-badge-height: 42px;
-  --problem-badge-font-size: 14px;
-  --problem-badge-radius: 14px;
-  --problem-badge-border: #c7c7e5;
-  --problem-badge-color: #2d2d2d;
-  --problem-badge-bg: #ffffff;
-  --problem-badge-tracking: 0.14px;
-
-  --problem-title-size: 42px;
-  --problem-title-lh: 60px;
-  --problem-title-color: #141414;
-  --problem-title-max-w: 1280px;
-  --problem-badge-title-gap: 48px;
-
-  --problem-sub-size: 21px;
-  --problem-sub-lh: 28px;
-  --problem-sub-color: #4b4b4b;
-  --problem-sub-max-w: 800px;
-  --problem-title-sub-gap: 24px;
-
   --problem-cards-height: 510px;
   --problem-card-height: 72px;
   --problem-card-radius: 20px;
@@ -260,8 +240,14 @@ body {
   height: 100%;
 }
 
+.hero__bg-img,
+.hero__rocks-svg {
+  display: none;
+}
+
 .rock-group {
   will-change: transform, opacity;
+  opacity: 0;
 }
 
 .rock-group--hidden {
@@ -457,69 +443,14 @@ body {
 .problem__rock-layer[data-rock="02"] { top: var(--problem-rock02-top); }
 .problem__rock-layer[data-rock="03"] { top: var(--problem-rock03-top); }
 
-/* ── Header (badge + title + subtitle) ── */
+/* ── Problem header positioning (extends .section-header) ── */
 
 .problem__header {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--problem-badge-title-gap);
   padding-top: var(--problem-header-top);
-  padding-left: var(--problem-container-padding);
-  padding-right: var(--problem-container-padding);
   max-width: 1540px;
   margin: 0 auto;
-}
-
-.problem__badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--problem-badge-height);
-  padding: 0 24px;
-  border-radius: var(--problem-badge-radius);
-  border: 2px solid var(--problem-badge-border);
-  background: var(--problem-badge-bg);
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: var(--problem-badge-font-size);
-  line-height: 16px;
-  letter-spacing: var(--problem-badge-tracking);
-  color: var(--problem-badge-color);
-  text-align: center;
-}
-
-.problem__title-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--problem-title-sub-gap);
-  text-align: center;
-  width: 100%;
-}
-
-.problem__title {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: var(--problem-title-size);
-  line-height: var(--problem-title-lh);
-  color: var(--problem-title-color);
-  max-width: var(--problem-title-max-w);
-}
-
-.problem__subtitle {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: var(--problem-sub-size);
-  line-height: var(--problem-sub-lh);
-  color: var(--problem-sub-color);
-  max-width: var(--problem-sub-max-w);
-}
-
-.problem__subtitle em {
-  font-style: italic;
 }
 
 /* ── Cards wrapper ── */
@@ -652,6 +583,106 @@ body {
   transition:
     opacity   var(--sh-subtitle-duration) var(--sh-subtitle-fade-easing)  var(--sh-subtitle-delay),
     transform var(--sh-subtitle-duration) var(--sh-subtitle-slide-easing) var(--sh-subtitle-delay);
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION HEADER — Base styles
+   ═══════════════════════════════════════════════════ */
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  padding: 0 60px;
+  width: 100%;
+}
+
+.section-header__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+  width: 100%;
+}
+
+.section-header__title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 60px;
+  color: #141414;
+  max-width: 1280px;
+}
+
+.section-header__gradient {
+  font-weight: 500;
+  background: linear-gradient(90deg, #205efb 28.83%, #b36dff 71.95%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-header__gradient--large {
+  font-size: 64px;
+}
+
+.section-header__subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  color: #4b4b4b;
+  max-width: 800px;
+}
+
+.section-header__subtitle em {
+  font-style: italic;
+}
+
+.section-header__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 24px;
+  border-radius: 14px;
+  border: 2px solid #c7c7e5;
+  background: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.14px;
+  color: #2d2d2d;
+  text-align: center;
+}
+
+/* ── Demo section layout ── */
+
+.sh-demo-section {
+  padding: 128px 0 120px;
+}
+
+.sh-demo-section--light {
+  background: #fff;
+}
+
+.sh-demo-section--tinted {
+  background: #fafafe;
+}
+
+.sh-demo-section__body {
+  margin-top: 64px;
+  text-align: center;
+  color: #999;
+  font-size: 16px;
+  padding: 60px 40px;
+  border-top: 1px dashed #e0e0e0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -807,17 +838,6 @@ body {
 @media (max-width: 799px) {
   :root {
     --problem-container-padding: 24px;
-    --problem-badge-height: 32px;
-    --problem-badge-font-size: 12px;
-    --problem-badge-radius: 10px;
-    --problem-badge-tracking: 0.12px;
-    --problem-badge-title-gap: 32px;
-
-    --problem-title-size: 24px;
-    --problem-title-lh: 32px;
-
-    --problem-sub-size: 16px;
-    --problem-sub-lh: 22px;
 
     --problem-card-font-size: 14px;
     --problem-card-radius: 12px;
@@ -827,19 +847,6 @@ body {
     --problem-card-height: auto;
 
     --problem-section-min-height: auto;
-  }
-
-  .problem__header {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-
-  .problem__badge {
-    font-weight: 500;
-  }
-
-  .problem__title {
-    font-weight: 500;
   }
 
   .problem__cards-wrapper {
@@ -868,5 +875,55 @@ body {
     white-space: normal;
     justify-content: center;
     text-align: center;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: Section headers
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .section-header__title {
+    font-size: 32px;
+    line-height: 42px;
+    font-weight: 500;
+  }
+
+  .section-header__gradient--large {
+    font-size: 48px;
+  }
+
+  .section-header__subtitle {
+    line-height: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    gap: 32px;
+    padding: 0 32px;
+  }
+
+  .section-header__badge {
+    height: 32px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12px;
+  }
+
+  .section-header__title {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
+  }
+
+  .section-header__gradient--large {
+    font-size: 36px;
+  }
+
+  .section-header__subtitle {
+    font-size: 16px;
+    line-height: 22px;
   }
 }
