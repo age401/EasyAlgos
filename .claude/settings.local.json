@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C D:/work-local/kystopia/easyalgos add .)"
+      "Bash(git -C D:/work-local/kystopia/easyalgos add .)",
+      "Bash(git -C D:/work-local/kystopia/easyalgos status)",
+      "Bash(git -C D:/work-local/kystopia/easyalgos commit -m \"Initial version\")",
+      "Bash(git -C D:/work-local/kystopia/easyalgos push)"
     ]
   }
 }

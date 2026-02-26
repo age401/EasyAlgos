@@ -749,7 +749,9 @@
     var vh = window.innerHeight;
     var cardStep = HOLD_PX + TRANSITION_PX;
     var totalTransition = SETTLE_PAUSE + (cards.length - 1) * cardStep + HOLD_PX;
-    section.style.height = (vh + totalTransition) + 'px';
+    var header = section.querySelector('.section-header');
+    var headerH = header ? header.offsetHeight : 0;
+    section.style.height = (headerH + vh + totalTransition) + 'px';
 
     cards.forEach(function (card, i) {
       if (i === 0) {
@@ -762,7 +764,9 @@
     if (!section) return;
 
     var sectionRect = section.getBoundingClientRect();
-    var scrolled = -sectionRect.top;
+    var header = section.querySelector('.section-header');
+    var headerH = header ? header.offsetHeight : 0;
+    var scrolled = -sectionRect.top - headerH;
     if (scrolled < 0) scrolled = 0;
 
     var vh = window.innerHeight;
