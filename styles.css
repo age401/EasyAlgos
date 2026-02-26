@@ -884,6 +884,213 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════
+   SOCIAL PROOF — Testimonials
+   ═══════════════════════════════════════════════════ */
+
+.social-proof {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  padding: 96px 60px 128px;
+  background: #fff;
+}
+
+.social-proof__badge-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Card grid ── */
+
+.social-proof__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 440px);
+  gap: 32px;
+  justify-content: center;
+  max-width: 912px;
+  width: 100%;
+}
+
+/* ── Testimonial card ── */
+
+.sp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  justify-content: center;
+  padding: 40px 32px 24px;
+  border: 2px solid #e3e9f6;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 8px 8px 0px rgba(44, 20, 74, 0.05);
+}
+
+.sp-card__quote {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 0.2px;
+  color: #2d2d2d;
+  margin: 0;
+}
+
+.sp-card__quote strong {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.sp-card__author {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.sp-card__author-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.sp-card__portrait {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #d8d8d8;
+}
+
+.sp-card__author-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sp-card__name {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #4871f3;
+}
+
+.sp-card__role {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 14px;
+  color: #696969;
+}
+
+.sp-card__link {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #285ff7;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.sp-card__link:hover {
+  opacity: 0.75;
+}
+
+/* ── Highlight card (Angus Walker) ── */
+
+.sp-highlight {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  justify-content: center;
+  padding: 40px 32px 24px;
+  max-width: 912px;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.sp-highlight__quote {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 0.2px;
+  color: #2d2d2d;
+  margin: 0;
+}
+
+.sp-highlight__quote strong {
+  font-weight: 700;
+}
+
+.sp-highlight__author {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* ── CTA group ── */
+
+.social-proof__cta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.social-proof__scarcity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 32px 6px 20px;
+  height: 48px;
+}
+
+.social-proof__scarcity-icn {
+  width: 20px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.social-proof__scarcity-text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #4a484e;
+  text-align: center;
+}
+
+.social-proof__scarcity-text strong {
+  font-weight: 600;
+}
+
+/* ── Card entrance animation ── */
+
+[data-sp-card] {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: opacity, transform;
+}
+
+[data-sp-card].sp-card--visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════════════════
    DUMMY SECTION
    ═══════════════════════════════════════════════════ */
 
@@ -1320,5 +1527,93 @@ body {
   .section-header__subtitle {
     font-size: 16px;
     line-height: 22px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: Social Proof
+   ═══════════════════════════════════════════════════ */
+
+/* ── [1024 ~ 769] tablet — 2-col fluid grid ── */
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .social-proof {
+    padding: 80px 40px 96px;
+  }
+
+  .social-proof__cards {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 700px;
+  }
+
+  .sp-card {
+    width: auto;
+  }
+
+  .sp-card__quote {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .sp-card__author {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .sp-highlight__quote {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .sp-highlight {
+    max-width: 700px;
+  }
+}
+
+/* ── [768 ~] mobile — single column ── */
+
+@media (max-width: 768px) {
+  .social-proof {
+    padding: 64px 24px 80px;
+    gap: 32px;
+  }
+
+  .social-proof__cards {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 480px;
+  }
+
+  .sp-card {
+    padding: 32px 24px 20px;
+    gap: 32px;
+  }
+
+  .sp-card__quote {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .sp-card__author {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .sp-highlight {
+    padding: 32px 24px 20px;
+    max-width: 480px;
+  }
+
+  .sp-highlight__quote {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .sp-highlight__author {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }

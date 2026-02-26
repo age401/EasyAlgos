@@ -844,3 +844,83 @@
     initHowItWorks();
   }
 })();
+
+
+/* ═══════════════════════════════════════════════════
+   SOCIAL PROOF — Sequential card reveal
+   ═══════════════════════════════════════════════════ */
+
+(function () {
+  'use strict';
+
+  var VISIBLE_CLASS   = 'sp-card--visible';
+  var VIEWPORT_RATIO  = 0.15;
+  var STAGGER_MS      = 300;
+
+  var cards;
+  var revealed  = new Set();
+  var queue     = [];
+  var draining  = false;
+
+  function revealNext() {
+    if (queue.length === 0) {
+      draining = false;
+      return;
+    }
+    draining = true;
+    var card = queue.shift();
+    card.classList.add(VISIBLE_CLASS);
+    setTimeout(revealNext, STAGGER_MS);
+  }
+
+  function checkCards() {
+    var vh = window.innerHeight;
+    var batch = [];
+
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      if (revealed.has(card)) continue;
+
+      var rect = card.getBoundingClientRect();
+      var visiblePx = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
+      if (visiblePx > rect.height * VIEWPORT_RATIO) {
+        revealed.add(card);
+        batch.push(card);
+      }
+    }
+
+    if (batch.length === 0) return;
+
+    for (var j = 0; j < batch.length; j++) {
+      queue.push(batch[j]);
+    }
+    if (!draining) revealNext();
+  }
+
+  var spTicking = false;
+
+  function onSpScroll() {
+    if (!spTicking) {
+      spTicking = true;
+      requestAnimationFrame(function () {
+        spTicking = false;
+        checkCards();
+      });
+    }
+  }
+
+  function initSocialProof() {
+    cards = Array.from(document.querySelectorAll('[data-sp-card]'));
+    if (!cards.length) return;
+
+    window.addEventListener('scroll', onSpScroll, { passive: true });
+    window.addEventListener('resize', checkCards);
+    checkCards();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSocialProof);
+  } else {
+    initSocialProof();
+  }
+})();
