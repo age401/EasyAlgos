@@ -676,10 +676,15 @@
     var lottiePlayingState = [];
     var lottieLoadingSet = {};
     var scrollContainer = window;
+    var animateRocks = window.innerWidth > 1024;
     var raf1 = 0;
     var raf2 = 0;
     var stickyStart = 0;
     var scrollTicking = false;
+    var isSnapping = false;
+    var lastScrolledForSnap = -Infinity;
+    var snapReady = false;
+    var SNAP_DURATION = 700;
 
     function isWindowContainer() {
       return scrollContainer === window;
@@ -702,6 +707,48 @@
       if (isWindowContainer()) return rect.top + getScrollTop();
       var scrollerRect = scrollContainer.getBoundingClientRect();
       return rect.top - scrollerRect.top + getScrollTop();
+    }
+
+    function preventScrollDefault(e) { e.preventDefault(); }
+
+    function lockUserScroll() {
+      document.documentElement.style.overscrollBehavior = 'none';
+      window.addEventListener('wheel', preventScrollDefault, { passive: false });
+      window.addEventListener('touchmove', preventScrollDefault, { passive: false });
+    }
+
+    function unlockUserScroll() {
+      document.documentElement.style.overscrollBehavior = '';
+      window.removeEventListener('wheel', preventScrollDefault);
+      window.removeEventListener('touchmove', preventScrollDefault);
+    }
+
+    function snapScroll(fromAbs, toAbs) {
+      isSnapping = true;
+      lockUserScroll();
+      var distance = toAbs - fromAbs;
+      var startTime = performance.now();
+
+      function tick(now) {
+        var elapsed = now - startTime;
+        var p = Math.min(elapsed / SNAP_DURATION, 1);
+        var eased = 1 - Math.pow(1 - p, 4);
+        var pos = fromAbs + distance * eased;
+
+        if (isWindowContainer()) {
+          window.scrollTo(0, pos);
+        } else {
+          scrollContainer.scrollTop = pos;
+        }
+
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          isSnapping = false;
+          unlockUserScroll();
+        }
+      }
+      requestAnimationFrame(tick);
     }
 
     function initRocks(cardIndex, rocksContainer) {
@@ -741,11 +788,13 @@
       activatedCards[cardIndex] = true;
 
       var card = cards[cardIndex];
-      var rocksContainer = card.querySelector('.hiw__rocks');
-      if (rocksContainer) {
-        var groups = rocksContainer.querySelectorAll('[data-rock]');
-        for (var g = 0; g < groups.length; g++) {
-          groups[g].style.transform = 'none';
+      if (animateRocks) {
+        var rocksContainer = card.querySelector('.hiw__rocks');
+        if (rocksContainer) {
+          var groups = rocksContainer.querySelectorAll('[data-rock]');
+          for (var g = 0; g < groups.length; g++) {
+            groups[g].style.transform = 'none';
+          }
         }
       }
 
@@ -865,6 +914,20 @@
           }
         }
       }
+
+      if (snapReady && !isSnapping) {
+        for (var s = 1; s < cards.length; s++) {
+          var snapStart = SETTLE_PAUSE + (s - 1) * cardStep + HOLD_PX;
+          var snapEnd   = snapStart + TRANSITION_PX;
+          if (lastScrolledForSnap <= snapStart && scrolled > snapStart && scrolled < snapEnd) {
+            lastScrolledForSnap = snapEnd;
+            snapScroll(getScrollTop(), stickyStart + snapEnd);
+            break;
+          }
+        }
+      }
+      if (!isSnapping) lastScrolledForSnap = scrolled;
+      if (!snapReady) snapReady = true;
     }
 
     function onScrollThrottled() {
@@ -882,8 +945,10 @@
     }
 
     cards.forEach(function (card, i) {
-      var rocksContainer = card.querySelector('.hiw__rocks');
-      if (rocksContainer) initRocks(i, rocksContainer);
+      if (animateRocks) {
+        var rocksContainer = card.querySelector('.hiw__rocks');
+        if (rocksContainer) initRocks(i, rocksContainer);
+      }
     });
 
     scrollContainer = findScrollContainer(section);
@@ -902,6 +967,7 @@
       cancelAnimationFrame(raf2);
       scrollContainer.removeEventListener('scroll', onScrollThrottled, true);
       window.removeEventListener('resize', onResize);
+      unlockUserScroll();
       lottieAnims.forEach(function (anim) {
         if (anim && anim.destroy) anim.destroy();
       });
