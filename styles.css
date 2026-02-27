@@ -67,13 +67,13 @@
 }
 
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   color: var(--color-heading);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -686,6 +686,204 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════
+   HOW IT WORKS — Scroll-lock card stacking
+   ═══════════════════════════════════════════════════ */
+
+.hiw {
+  position: relative;
+  background: #fff;
+  z-index: 2;
+}
+
+
+.hiw__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.hiw__viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hiw__container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.hiw__container::before {
+  content: '';
+  position: absolute;
+  left: 104px;
+  right: 104px;
+  top: 32px;
+  bottom: -32px;
+  background: #c0bff3;
+  filter: blur(25px);
+  border-radius: 40px;
+  pointer-events: none;
+}
+
+.hiw__card {
+  padding: 0 60px;
+  will-change: transform;
+}
+
+.hiw__card:first-child {
+  position: relative;
+}
+
+.hiw__card:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.hiw__card-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 40px;
+  overflow: hidden;
+}
+
+.hiw__left {
+  flex-shrink: 0;
+  width: 640px;
+  height: 640px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 64px 96px;
+  overflow: hidden;
+}
+
+.hiw__number {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.hiw__number-chevron {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hiw__number-digit {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 56px;
+  line-height: 60px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hiw__content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.hiw__title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 44px;
+  color: #fff;
+}
+
+.hiw__desc {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 28px;
+  color: #fff;
+}
+
+.hiw__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 220px;
+  height: 60px;
+  border-radius: 500px;
+  background: var(--cta-gradient);
+  box-shadow: var(--cta-shadow);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.14px;
+  text-decoration: none;
+  transition: filter 0.2s;
+}
+
+.hiw__cta:hover {
+  filter: brightness(1.08);
+}
+
+.hiw__cta svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.hiw__right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 60px;
+}
+
+.hiw__graphic {
+  width: 520px;
+  height: 520px;
+  border-radius: 24px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.hiw__rocks {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1680px;
+  height: 1040px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hiw__rocks svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hiw__rocks [data-rock] {
+  transform-box: view-box;
+  will-change: transform;
+  transition: transform 1.4s cubic-bezier(0.05, 0.85, 0.15, 1);
+}
+
+.hiw__left,
+.hiw__right {
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════
    DUMMY SECTION
    ═══════════════════════════════════════════════════ */
 
@@ -875,6 +1073,203 @@ body {
     white-space: normal;
     justify-content: center;
     text-align: center;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: How it Works
+   ═══════════════════════════════════════════════════ */
+
+/* ── [1240 ~ 1025] horizontal, narrower ── */
+
+@media (max-width: 1240px) and (min-width: 1025px) {
+  .hiw__container::before {
+    left: 84px;
+    right: 84px;
+  }
+
+  .hiw__card {
+    padding: 0 40px;
+  }
+
+  .hiw__card-inner {
+    gap: 0;
+  }
+
+  .hiw__left {
+    width: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 640px;
+    padding: 64px 40px;
+  }
+
+  .hiw__number-digit {
+    font-size: 40px;
+    line-height: 44px;
+  }
+
+  .hiw__number-chevron {
+    font-size: 22px;
+  }
+
+  .hiw__title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .hiw__right {
+    flex-shrink: 0;
+    padding: 40px;
+  }
+}
+
+/* ── [1024 ~] rocks background opacity ── */
+
+@media (max-width: 1024px) {
+  .hiw__rocks {
+    opacity: 0.4;
+  }
+}
+
+/* ── [1024 ~ 769] vertical card layout ── */
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .hiw__container::before {
+    left: 84px;
+    right: 84px;
+  }
+
+  .hiw__card {
+    padding: 0 40px;
+  }
+
+  .hiw__card-inner {
+    flex-direction: column;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px;
+    gap: 24px;
+  }
+
+  .hiw__left {
+    width: 100%;
+    height: auto;
+    padding: 24px 32px 0;
+    order: 2;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+
+  .hiw__number {
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 2px;
+    padding-top: 6px;
+  }
+
+  .hiw__number-chevron {
+    font-size: 16px;
+  }
+
+  .hiw__number-digit {
+    font-size: 28px;
+    line-height: 28px;
+  }
+
+  .hiw__content {
+    gap: 24px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hiw__title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .hiw__desc {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .hiw__right {
+    width: 100%;
+    padding: 0 24px;
+    order: 1;
+    justify-content: center;
+  }
+
+  .hiw__graphic {
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    border-radius: 18px;
+  }
+}
+
+/* ── [768 ~] mobile ── */
+
+@media (max-width: 768px) {
+  .hiw__container::before {
+    left: 56px;
+    right: 56px;
+  }
+
+  .hiw__card {
+    padding: 0 12px;
+  }
+
+  .hiw__card-inner {
+    flex-direction: column;
+    border-radius: 24px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .hiw__left {
+    width: 100%;
+    height: auto;
+    padding: 24px 32px;
+    order: 2;
+    flex-shrink: 1;
+    flex-grow: 1;
+  }
+
+  .hiw__number {
+    display: none;
+  }
+
+  .hiw__content {
+    gap: 12px;
+  }
+
+  .hiw__title {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .hiw__desc {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+
+  .hiw__right {
+    width: 100%;
+    padding: 0;
+    order: 1;
+  }
+
+  .hiw__graphic {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 0;
   }
 }
 
