@@ -547,22 +547,25 @@
 
 /* ═══════════════════════════════════════════════════
    HOW IT WORKS — Scroll-lock card stacking
+   (Lazy-initialised via IntersectionObserver,
+    per-card Lottie loading, scroll-container aware)
    ═══════════════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
-  /* ── Tweakable config ── */
-  var SETTLE_PAUSE   = 20;   // px of scroll after sticky pins before first card transition
-  var HOLD_PX        = 200;  // px of scroll to hold each card visible before next one enters
-  var TRANSITION_PX  = 600;  // px of scroll each card takes to slide into place
+  var SETTLE_PAUSE      = 20;
+  var HOLD_PX           = 200;
+  var TRANSITION_PX     = 600;
+  var ROCK_ANIM_DURATION = 1520;
 
-  /* ── Rock animation data per card ──
-     Each entry: [dx, dy, rotation, centerX, centerY, delay(ms)]
-     dx/dy = initial offset from final SVG position (px in SVG space)
-     rotation = initial rotation (degrees)
-     centerX/centerY = transform-origin in SVG coords
-     delay = stagger delay in ms                                    */
+  var LOTTIE_PATHS = [
+    'animations/hiw-01.json',
+    'animations/hiw-02.json',
+    'animations/hiw-03.json',
+    'animations/hiw-04.json'
+  ];
+
   var ROCK_DATA = {
     0: {
       25: [-324, 106, -16.8, 673, 798, 0],
@@ -645,51 +648,110 @@
     }
   };
 
-  var LOTTIE_PATHS = [
-    'animations/hiw-01.json',
-    'animations/hiw-02.json',
-    'animations/hiw-03.json',
-    'animations/hiw-04.json'
-  ];
-  var ROCK_ANIM_DURATION = 1520; // max rock delay (120ms) + transition (1400ms)
+  var io = null;
+  var hiwInitialized = false;
+  var teardown = null;
 
-  var section, stickyEl, cards;
-  var activatedCards = {};
-  var lottieAnims = [];
-  var lottiePlayingState = [];
-
-  function initRocks(cardIndex, rocksContainer) {
-    var data = ROCK_DATA[cardIndex];
-    if (!data) return;
-
-    var groups = rocksContainer.querySelectorAll('[data-rock]');
-    for (var g = 0; g < groups.length; g++) {
-      var el = groups[g];
-      var num = parseInt(el.getAttribute('data-rock'), 10);
-      var anim = data[num];
-      if (!anim) continue;
-
-      el.style.transformOrigin = anim[3] + 'px ' + anim[4] + 'px';
-      el.style.transform = 'translate(' + anim[0] + 'px,' + anim[1] + 'px) rotate(' + anim[2] + 'deg)';
-      el.style.transitionDelay = anim[5] + 'ms';
+  function findScrollContainer(el) {
+    var current = el.parentElement;
+    while (current) {
+      var style = window.getComputedStyle(current);
+      var overflowY = style.overflowY;
+      if ((overflowY === 'auto' || overflowY === 'scroll') && current.scrollHeight > current.clientHeight) {
+        return current;
+      }
+      current = current.parentElement;
     }
+    return window;
   }
 
-  function activateCard(cardIndex) {
-    if (activatedCards[cardIndex]) return;
-    activatedCards[cardIndex] = true;
+  function mountHowItWorks(section) {
+    var cards = Array.from(section.querySelectorAll('[data-hiw-card]'));
+    var stickyEl = section.querySelector('.hiw__sticky');
+    var headerEl = section.querySelector('[data-hiw-header]');
+    if (cards.length < 2) return null;
 
-    var card = cards[cardIndex];
-    var rocksContainer = card.querySelector('.hiw__rocks');
-    if (rocksContainer) {
+    var activatedCards = {};
+    var lottieAnims = [];
+    var lottiePlayingState = [];
+    var lottieLoadingSet = {};
+    var scrollContainer = window;
+    var raf1 = 0;
+    var raf2 = 0;
+    var stickyStart = 0;
+    var scrollTicking = false;
+
+    function isWindowContainer() {
+      return scrollContainer === window;
+    }
+
+    function getScrollTop() {
+      if (isWindowContainer()) {
+        return window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+      }
+      return scrollContainer.scrollTop || 0;
+    }
+
+    function getViewportHeight() {
+      if (isWindowContainer()) return window.innerHeight;
+      return scrollContainer.clientHeight;
+    }
+
+    function getElementTopInScroller(el) {
+      var rect = el.getBoundingClientRect();
+      if (isWindowContainer()) return rect.top + getScrollTop();
+      var scrollerRect = scrollContainer.getBoundingClientRect();
+      return rect.top - scrollerRect.top + getScrollTop();
+    }
+
+    function initRocks(cardIndex, rocksContainer) {
+      var data = ROCK_DATA[cardIndex];
+      if (!data) return;
       var groups = rocksContainer.querySelectorAll('[data-rock]');
       for (var g = 0; g < groups.length; g++) {
-        groups[g].style.transform = 'none';
+        var el = groups[g];
+        var num = parseInt(el.getAttribute('data-rock'), 10);
+        var anim = data[num];
+        if (!anim) continue;
+        el.style.transformOrigin = anim[3] + 'px ' + anim[4] + 'px';
+        el.style.transform = 'translate(' + anim[0] + 'px,' + anim[1] + 'px) rotate(' + anim[2] + 'deg)';
+        el.style.transitionDelay = anim[5] + 'ms';
       }
     }
 
-    var graphic = card.querySelector('.hiw__graphic');
-    if (graphic) {
+    function loadLottieForCard(cardIndex) {
+      if (typeof lottie === 'undefined') return;
+      if (lottieAnims[cardIndex] || lottieLoadingSet[cardIndex]) return;
+      var graphic = cards[cardIndex] ? cards[cardIndex].querySelector('.hiw__graphic') : null;
+      var path = LOTTIE_PATHS[cardIndex];
+      if (!graphic || !path) return;
+      lottieLoadingSet[cardIndex] = true;
+      lottieAnims[cardIndex] = lottie.loadAnimation({
+        container: graphic,
+        renderer: 'svg',
+        loop: true,
+        autoplay: false,
+        path: path
+      });
+      lottiePlayingState[cardIndex] = false;
+    }
+
+    function activateCard(cardIndex) {
+      if (activatedCards[cardIndex]) return;
+      activatedCards[cardIndex] = true;
+
+      var card = cards[cardIndex];
+      var rocksContainer = card.querySelector('.hiw__rocks');
+      if (rocksContainer) {
+        var groups = rocksContainer.querySelectorAll('[data-rock]');
+        for (var g = 0; g < groups.length; g++) {
+          groups[g].style.transform = 'none';
+        }
+      }
+
+      var graphic = card.querySelector('.hiw__graphic');
+      if (!graphic) return;
+
       var startTime = performance.now();
       var idx = cardIndex;
       (function fadeIn(now) {
@@ -698,149 +760,188 @@
         graphic.style.opacity = p;
         if (p < 1) {
           requestAnimationFrame(fadeIn);
-        } else {
-          if (lottieAnims[idx]) {
-            lottieAnims[idx].play();
-            lottiePlayingState[idx] = true;
-          }
+          return;
+        }
+        if (lottieAnims[idx]) {
+          lottieAnims[idx].play();
+          lottiePlayingState[idx] = true;
         }
       })(startTime);
     }
-  }
 
-  function initHowItWorks() {
-    section = document.getElementById('how-it-works');
-    if (!section) return;
+    function measure() {
+      var vh = getViewportHeight();
+      var cardStep = HOLD_PX + TRANSITION_PX;
+      var totalTransition = SETTLE_PAUSE + (cards.length - 1) * cardStep + HOLD_PX;
+      var headerHeight = headerEl ? headerEl.offsetHeight : 0;
+      section.style.height = (headerHeight + vh + totalTransition) + 'px';
+      if (stickyEl) {
+        stickyStart = getElementTopInScroller(stickyEl);
+      }
+      cards.forEach(function (card, i) {
+        if (i === 0) card.style.transform = 'none';
+      });
+    }
 
-    stickyEl = section.querySelector('.hiw__sticky');
-    cards = Array.from(section.querySelectorAll('[data-hiw-card]'));
+    function onScroll() {
+      var sectionRect = section.getBoundingClientRect();
+      var stickyRect = stickyEl ? stickyEl.getBoundingClientRect() : null;
+      var vh = getViewportHeight();
+      var scrolled = getScrollTop() - stickyStart;
+      if (scrolled < 0) scrolled = 0;
 
-    if (cards.length < 2) return;
+      var cardStep = HOLD_PX + TRANSITION_PX;
+
+      var stickyTop = stickyRect
+        ? (isWindowContainer()
+          ? stickyRect.top
+          : stickyRect.top - scrollContainer.getBoundingClientRect().top)
+        : sectionRect.top;
+
+      if (!activatedCards[0] && stickyTop < vh - SETTLE_PAUSE) {
+        activateCard(0);
+        loadLottieForCard(0);
+      }
+
+      for (var i = 1; i < cards.length; i++) {
+        var start = SETTLE_PAUSE + (i - 1) * cardStep + HOLD_PX;
+        var end   = start + TRANSITION_PX;
+
+        var t;
+        if (scrolled <= start) {
+          t = 0;
+        } else if (scrolled >= end) {
+          t = 1;
+        } else {
+          t = (scrolled - start) / TRANSITION_PX;
+        }
+
+        if (t >= 1) {
+          activateCard(i);
+          loadLottieForCard(i);
+        }
+
+        var eased = t < 0.5
+          ? 4 * t * t * t
+          : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+        var offsetPx = (1 - eased) * vh;
+        cards[i].style.transform = 'translateY(' + offsetPx + 'px)';
+
+        var fadeOut = 0;
+        if (t > 0.7) {
+          fadeOut = (t - 0.7) / 0.3;
+          if (fadeOut > 1) fadeOut = 1;
+        }
+        cards[i - 1].style.opacity = 1 - fadeOut;
+
+        if (fadeOut >= 1 && lottieAnims[i - 1] && lottiePlayingState[i - 1]) {
+          lottieAnims[i - 1].pause();
+          lottiePlayingState[i - 1] = false;
+        } else if (fadeOut < 1 && lottieAnims[i - 1] && activatedCards[i - 1] && !lottiePlayingState[i - 1]) {
+          lottieAnims[i - 1].play();
+          lottiePlayingState[i - 1] = true;
+        }
+      }
+
+      var lastIdx = cards.length - 1;
+      if (activatedCards[lastIdx] && lottieAnims[lastIdx] && !lottiePlayingState[lastIdx]) {
+        lottieAnims[lastIdx].play();
+        lottiePlayingState[lastIdx] = true;
+      }
+
+      var sectionVisible;
+      if (isWindowContainer()) {
+        sectionVisible = sectionRect.top < vh && sectionRect.bottom > 0;
+      } else {
+        var scrollerRect = scrollContainer.getBoundingClientRect();
+        sectionVisible = sectionRect.top < scrollerRect.bottom && sectionRect.bottom > scrollerRect.top;
+      }
+      if (!sectionVisible) {
+        for (var j = 0; j < lottieAnims.length; j++) {
+          if (lottieAnims[j] && lottiePlayingState[j]) {
+            lottieAnims[j].pause();
+            lottiePlayingState[j] = false;
+          }
+        }
+      }
+    }
+
+    function onScrollThrottled() {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(function () {
+        onScroll();
+        scrollTicking = false;
+      });
+    }
+
+    function onResize() {
+      measure();
+      onScroll();
+    }
 
     cards.forEach(function (card, i) {
       var rocksContainer = card.querySelector('.hiw__rocks');
       if (rocksContainer) initRocks(i, rocksContainer);
-
-      var graphic = card.querySelector('.hiw__graphic');
-      if (graphic && typeof lottie !== 'undefined' && LOTTIE_PATHS[i]) {
-        lottieAnims[i] = lottie.loadAnimation({
-          container: graphic,
-          renderer: 'svg',
-          loop: true,
-          autoplay: false,
-          path: LOTTIE_PATHS[i]
-        });
-        lottiePlayingState[i] = false;
-      }
     });
 
+    scrollContainer = findScrollContainer(section);
     measure();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    scrollContainer.addEventListener('scroll', onScrollThrottled, true);
     window.addEventListener('resize', onResize);
 
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
+    raf1 = requestAnimationFrame(function () {
+      raf2 = requestAnimationFrame(function () {
         onScroll();
       });
     });
+
+    return function cleanup() {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      scrollContainer.removeEventListener('scroll', onScrollThrottled, true);
+      window.removeEventListener('resize', onResize);
+      lottieAnims.forEach(function (anim) {
+        if (anim && anim.destroy) anim.destroy();
+      });
+    };
   }
 
-  function measure() {
-    var vh = window.innerHeight;
-    var cardStep = HOLD_PX + TRANSITION_PX;
-    var totalTransition = SETTLE_PAUSE + (cards.length - 1) * cardStep + HOLD_PX;
-    var header = section.querySelector('.section-header');
-    var headerH = header ? header.offsetHeight : 0;
-    section.style.height = (headerH + vh + totalTransition) + 'px';
+  function initHiw() {
+    if (hiwInitialized) return;
+    hiwInitialized = true;
+    if (io) { io.disconnect(); io = null; }
 
-    cards.forEach(function (card, i) {
-      if (i === 0) {
-        card.style.transform = 'none';
-      }
-    });
+    var section = document.getElementById('how-it-works');
+    if (!section) return;
+    teardown = mountHowItWorks(section);
   }
 
-  function onScroll() {
+  function boot() {
+    var section = document.getElementById('how-it-works');
     if (!section) return;
 
-    var sectionRect = section.getBoundingClientRect();
-    var header = section.querySelector('.section-header');
-    var headerH = header ? header.offsetHeight : 0;
-    var scrolled = -sectionRect.top - headerH;
-    if (scrolled < 0) scrolled = 0;
-
-    var vh = window.innerHeight;
-    var cardStep = HOLD_PX + TRANSITION_PX;
-
-    if (scrolled >= SETTLE_PAUSE) {
-      activateCard(0);
+    if (typeof IntersectionObserver === 'undefined') {
+      initHiw();
+      return;
     }
 
-    for (var i = 1; i < cards.length; i++) {
-      var start = SETTLE_PAUSE + (i - 1) * cardStep + HOLD_PX;
-      var end   = start + TRANSITION_PX;
-
-      var t;
-      if (scrolled <= start) {
-        t = 0;
-      } else if (scrolled >= end) {
-        t = 1;
-      } else {
-        t = (scrolled - start) / TRANSITION_PX;
-      }
-
-      if (t >= 1) {
-        activateCard(i);
-      }
-
-      var eased = t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-      var offsetPx = (1 - eased) * vh;
-      cards[i].style.transform = 'translateY(' + offsetPx + 'px)';
-
-      var fadeOut = 0;
-      if (t > 0.7) {
-        fadeOut = (t - 0.7) / 0.3;
-        if (fadeOut > 1) fadeOut = 1;
-      }
-      cards[i - 1].style.opacity = 1 - fadeOut;
-
-      if (fadeOut >= 1 && lottieAnims[i - 1] && lottiePlayingState[i - 1]) {
-        lottieAnims[i - 1].pause();
-        lottiePlayingState[i - 1] = false;
-      } else if (fadeOut < 1 && lottieAnims[i - 1] && activatedCards[i - 1] && !lottiePlayingState[i - 1]) {
-        lottieAnims[i - 1].play();
-        lottiePlayingState[i - 1] = true;
-      }
-    }
-
-    var lastIdx = cards.length - 1;
-    if (activatedCards[lastIdx] && lottieAnims[lastIdx] && !lottiePlayingState[lastIdx]) {
-      lottieAnims[lastIdx].play();
-      lottiePlayingState[lastIdx] = true;
-    }
-
-    var sectionVisible = sectionRect.top < vh && sectionRect.bottom > 0;
-    if (!sectionVisible) {
-      for (var j = 0; j < lottieAnims.length; j++) {
-        if (lottieAnims[j] && lottiePlayingState[j]) {
-          lottieAnims[j].pause();
-          lottiePlayingState[j] = false;
+    io = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) {
+        if (entries[k].isIntersecting) {
+          initHiw();
+          break;
         }
       }
-    }
-  }
+    }, { root: null, rootMargin: '800px 0px', threshold: 0 });
 
-  function onResize() {
-    measure();
-    onScroll();
+    io.observe(section);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHowItWorks);
+    document.addEventListener('DOMContentLoaded', boot);
   } else {
-    initHowItWorks();
+    boot();
   }
 })();

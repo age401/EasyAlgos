@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EasyAlgos</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: { preflight: false },
+      theme: {
+        extend: {
+          screens: {
+            'tablet-md': '769px',
+            'tablet-wide': '1025px',
+            'desktop': '1241px'
+          }
+        }
+      }
+    }
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
 </head>
 <body>
@@ -444,9 +459,9 @@
 </section>
 
 <!-- ───── HOW IT WORKS ───── -->
-<section class="hiw" id="how-it-works">
+<section class="relative z-[2] bg-white" id="how-it-works">
 
-  <div class="section-header" data-section-header>
+  <div class="section-header" data-section-header data-hiw-header>
     <div class="section-header__badge-wrap" data-sh-badge>
       <span class="section-header__badge">How it works</span>
     </div>
@@ -458,12 +473,12 @@
     </div>
   </div>
 
-  <div class="hiw__sticky">
-    <div class="hiw__viewport">
-    <div class="hiw__container">
-      <div class="hiw__card" data-hiw-card="0">
-        <div class="hiw__card-inner" style="background: linear-gradient(116.57deg, #3E3C84 0%, #6D5FBF 100%)">
-          <div class="hiw__rocks" data-rocks="1">
+  <div class="hiw__sticky sticky top-0 h-screen">
+    <div class="hiw__viewport flex h-full w-full items-center justify-center overflow-hidden">
+    <div class="hiw__container relative mx-auto w-full max-w-[1400px] before:pointer-events-none before:absolute before:bottom-[-32px] before:top-8 before:left-[104px] before:right-[104px] before:rounded-[40px] before:bg-[#c0bff3] before:blur-[25px] min-[1025px]:max-[1240px]:before:left-[84px] min-[1025px]:max-[1240px]:before:right-[84px] min-[769px]:max-[1024px]:before:left-[84px] min-[769px]:max-[1024px]:before:right-[84px] max-[768px]:before:left-14 max-[768px]:before:right-14">
+      <div class="hiw__card relative px-[60px] [will-change:transform] min-[1025px]:max-[1240px]:px-10 min-[769px]:max-[1024px]:px-10 max-[768px]:px-3" data-hiw-card="0">
+        <div class="hiw__card-inner relative flex items-center justify-between overflow-hidden rounded-[40px] min-[769px]:max-[1024px]:mx-auto min-[769px]:max-[1024px]:max-w-[640px] min-[769px]:max-[1024px]:flex-col min-[769px]:max-[1024px]:gap-6 min-[769px]:max-[1024px]:p-6 max-[768px]:mx-auto max-[768px]:max-w-[640px] max-[768px]:flex-col max-[768px]:rounded-3xl min-[1025px]:max-[1240px]:gap-0" style="background: linear-gradient(116.57deg, #3E3C84 0%, #6D5FBF 100%)">
+          <div class="hiw__rocks pointer-events-none absolute left-1/2 top-1/2 z-0 h-[1040px] w-[1680px] -translate-x-1/2 -translate-y-1/2 max-[1024px]:opacity-40 [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_[data-rock]]:[transform-box:view-box] [&_[data-rock]]:[will-change:transform] [&_[data-rock]]:transition-transform [&_[data-rock]]:duration-[1400ms] [&_[data-rock]]:[transition-timing-function:cubic-bezier(0.05,0.85,0.15,1)]" data-rocks="1">
             <svg width="1680" height="1040" viewBox="0 0 1680 1040" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#cr1clip)">
             <g id="cr1-r25" data-rock="25"><path d="M738.89 587.25L496.81 692.5L454.71 903L617.85 1008.25L812.56 876.69L891.5 771.44L738.89 587.25Z" fill="url(#cr1g0)"/><path d="M454.71 903H641.53L733.63 818.8L812.56 876.69L617.85 1008.25L454.71 903Z" fill="url(#cr1g1)"/><path d="M733.63 818.8L738.89 587.25L496.81 692.5L683.04 865.05L733.63 818.8Z" fill="url(#cr1g2)"/></g>
@@ -572,25 +587,28 @@
             </defs>
             </svg>
           </div>
-          <div class="hiw__left">
-            <div class="hiw__number"><span class="hiw__number-chevron">&rsaquo;</span><span class="hiw__number-digit">1</span></div>
-            <div class="hiw__content">
-              <h3 class="hiw__title">Connect your account</h3>
-              <p class="hiw__desc">Once approved, access your user dashboard and link your MetaTrader account securely in a few clicks.</p>
-              <a href="#" class="hiw__cta">Apply now
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="3" cy="7.5" r="1.5" fill="#fff" opacity=".6"/><circle cx="7.5" cy="7.5" r="1.5" fill="#fff" opacity=".8"/><circle cx="12" cy="7.5" r="1.5" fill="#fff"/></svg>
-              </a>
+          <div class="hiw__left z-[1] flex h-[640px] w-[640px] shrink-0 flex-col justify-between overflow-hidden px-24 py-16 min-[1025px]:max-[1240px]:h-[640px] min-[1025px]:max-[1240px]:min-w-0 min-[1025px]:max-[1240px]:flex-1 min-[1025px]:max-[1240px]:px-10 min-[769px]:max-[1024px]:order-2 min-[769px]:max-[1024px]:h-auto min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:flex-row min-[769px]:max-[1024px]:items-start min-[769px]:max-[1024px]:justify-start min-[769px]:max-[1024px]:gap-3 min-[769px]:max-[1024px]:px-8 min-[769px]:max-[1024px]:pb-0 min-[769px]:max-[1024px]:pt-6 max-[768px]:order-2 max-[768px]:h-auto max-[768px]:w-full max-[768px]:grow max-[768px]:shrink max-[768px]:px-8 max-[768px]:py-6">
+            <div class="hiw__number flex items-baseline gap-0.5 min-[769px]:max-[1024px]:shrink-0 min-[769px]:max-[1024px]:pt-1.5 max-[768px]:hidden">
+              <span class="hiw__number-chevron font-poppins text-[28px] leading-none text-white/50 min-[1025px]:max-[1240px]:text-[22px] min-[769px]:max-[1024px]:text-base"><svg class="block h-full w-full" xmlns="http://www.w3.org/2000/svg" width="23" height="33" fill="none" viewBox="0 0 23 33"><path fill="#7573d3" d="M0 33v-6.77l16.354-9.76L0 6.709V0l23 13.72v5.5z"/></svg></span>
+              <span class="hiw__number-digit font-semibold text-white/50 text-[56px] leading-[60px] min-[1025px]:max-[1240px]:text-[40px] min-[1025px]:max-[1240px]:leading-[44px] min-[769px]:max-[1024px]:text-[28px] min-[769px]:max-[1024px]:leading-[28px]">1</span>
+            </div>
+            <div class="hiw__content flex flex-col gap-8 min-[769px]:max-[1024px]:min-w-0 min-[769px]:max-[1024px]:flex-1 min-[769px]:max-[1024px]:gap-6 max-[768px]:gap-3">
+              <h3 class="hiw__title text-white font-semibold text-lg leading-7 text-center tablet-md:text-[22px] tablet-md:leading-8 tablet-md:text-left tablet-wide:text-[28px] tablet-wide:leading-10 desktop:text-4xl desktop:leading-[44px]">Connect your account</h3>
+              <p class="hiw__desc font-[Roboto,sans-serif] text-white text-base leading-6 text-center tablet-md:font-medium tablet-md:text-left tablet-wide:text-lg tablet-wide:leading-7">Once approved, access your user dashboard and link your MetaTrader account securely in a few clicks.</p>
+              <div class="w-full max-w-[181px] max-[768px]:mx-auto">
+                <a href="#" class="flex items-center justify-center h-12 w-full rounded-full bg-white text-[#46448E] text-sm font-semibold no-underline transition-[filter] duration-200 hover:brightness-95">Apply now</a>
+              </div>
             </div>
           </div>
-          <div class="hiw__right">
-            <div class="hiw__graphic"></div>
+          <div class="hiw__right z-[1] flex shrink-0 items-center p-[60px] min-[1025px]:max-[1240px]:p-10 min-[769px]:max-[1024px]:order-1 min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:justify-center min-[769px]:max-[1024px]:px-6 min-[769px]:max-[1024px]:py-0 max-[768px]:order-1 max-[768px]:w-full max-[768px]:p-0">
+            <div class="hiw__graphic h-[520px] w-[520px] overflow-hidden rounded-3xl opacity-0 min-[769px]:max-[1024px]:h-auto min-[769px]:max-[1024px]:aspect-square min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:max-w-[360px] min-[769px]:max-[1024px]:rounded-[18px] max-[768px]:h-auto max-[768px]:w-full max-[768px]:aspect-square max-[768px]:rounded-none"></div>
           </div>
         </div>
       </div>
 
-      <div class="hiw__card" data-hiw-card="1">
-        <div class="hiw__card-inner" style="background: linear-gradient(63.43deg, #3E2570 0%, #7A41B8 100%)">
-          <div class="hiw__rocks" data-rocks="2">
+      <div class="hiw__card absolute left-0 top-0 w-full px-[60px] [will-change:transform] min-[1025px]:max-[1240px]:px-10 min-[769px]:max-[1024px]:px-10 max-[768px]:px-3" data-hiw-card="1">
+        <div class="hiw__card-inner relative flex items-center justify-between overflow-hidden rounded-[40px] min-[769px]:max-[1024px]:mx-auto min-[769px]:max-[1024px]:max-w-[640px] min-[769px]:max-[1024px]:flex-col min-[769px]:max-[1024px]:gap-6 min-[769px]:max-[1024px]:p-6 max-[768px]:mx-auto max-[768px]:max-w-[640px] max-[768px]:flex-col max-[768px]:rounded-3xl min-[1025px]:max-[1240px]:gap-0" style="background: linear-gradient(63.43deg, #3E2570 0%, #7A41B8 100%)">
+          <div class="hiw__rocks pointer-events-none absolute left-1/2 top-1/2 z-0 h-[1040px] w-[1680px] -translate-x-1/2 -translate-y-1/2 max-[1024px]:opacity-40 [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_[data-rock]]:[transform-box:view-box] [&_[data-rock]]:[will-change:transform] [&_[data-rock]]:transition-transform [&_[data-rock]]:duration-[1400ms] [&_[data-rock]]:[transition-timing-function:cubic-bezier(0.05,0.85,0.15,1)]" data-rocks="2">
             <svg width="1680" height="1040" viewBox="0 0 1680 1040" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#cr2clip)">
             <g id="cr2-r16" data-rock="16"><path d="M387.381 616.5L317.811 816.52L330.851 877.4L474.351 916.53L652.631 838.26L687.411 653.46L535.221 529.53L387.381 616.5Z" fill="url(#cr2g0)"/><path d="M317.811 816.52L493.911 775.21L515.501 898.46L474.351 916.53L330.851 877.4L317.811 816.52Z" fill="url(#cr2g1)"/><path d="M317.811 816.52L493.911 775.21L535.221 529.53L387.381 616.5L317.811 816.52Z" fill="url(#cr2g2)"/></g>
@@ -663,25 +681,28 @@
             </defs>
             </svg>
           </div>
-          <div class="hiw__left">
-            <div class="hiw__number"><span class="hiw__number-chevron">&rsaquo;</span><span class="hiw__number-digit">2</span></div>
-            <div class="hiw__content">
-              <h3 class="hiw__title">Get your EasyVPS</h3>
-              <p class="hiw__desc">Powered by ForexVPS.net, with all our Expert Advisors already installed and configured, ready to go.</p>
-              <a href="#" class="hiw__cta">Apply now
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="3" cy="7.5" r="1.5" fill="#fff" opacity=".6"/><circle cx="7.5" cy="7.5" r="1.5" fill="#fff" opacity=".8"/><circle cx="12" cy="7.5" r="1.5" fill="#fff"/></svg>
-              </a>
+          <div class="hiw__left z-[1] flex h-[640px] w-[640px] shrink-0 flex-col justify-between overflow-hidden px-24 py-16 min-[1025px]:max-[1240px]:h-[640px] min-[1025px]:max-[1240px]:min-w-0 min-[1025px]:max-[1240px]:flex-1 min-[1025px]:max-[1240px]:px-10 min-[769px]:max-[1024px]:order-2 min-[769px]:max-[1024px]:h-auto min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:flex-row min-[769px]:max-[1024px]:items-start min-[769px]:max-[1024px]:justify-start min-[769px]:max-[1024px]:gap-3 min-[769px]:max-[1024px]:px-8 min-[769px]:max-[1024px]:pb-0 min-[769px]:max-[1024px]:pt-6 max-[768px]:order-2 max-[768px]:h-auto max-[768px]:w-full max-[768px]:grow max-[768px]:shrink max-[768px]:px-8 max-[768px]:py-6">
+            <div class="hiw__number flex items-baseline gap-0.5 min-[769px]:max-[1024px]:shrink-0 min-[769px]:max-[1024px]:pt-1.5 max-[768px]:hidden">
+              <span class="hiw__number-chevron font-poppins text-[28px] leading-none text-white/50 min-[1025px]:max-[1240px]:text-[22px] min-[769px]:max-[1024px]:text-base"><svg class="block h-full w-full" xmlns="http://www.w3.org/2000/svg" width="23" height="33" fill="none" viewBox="0 0 23 33"><path fill="#7573d3" d="M0 33v-6.77l16.354-9.76L0 6.709V0l23 13.72v5.5z"/></svg></span>
+              <span class="hiw__number-digit font-semibold text-white/50 text-[56px] leading-[60px] min-[1025px]:max-[1240px]:text-[40px] min-[1025px]:max-[1240px]:leading-[44px] min-[769px]:max-[1024px]:text-[28px] min-[769px]:max-[1024px]:leading-[28px]">2</span>
+            </div>
+            <div class="hiw__content flex flex-col gap-8 min-[769px]:max-[1024px]:min-w-0 min-[769px]:max-[1024px]:flex-1 min-[769px]:max-[1024px]:gap-6 max-[768px]:gap-3">
+              <h3 class="hiw__title text-white font-semibold text-lg leading-7 text-center tablet-md:text-[22px] tablet-md:leading-8 tablet-md:text-left tablet-wide:text-[28px] tablet-wide:leading-10 desktop:text-4xl desktop:leading-[44px]">Get your EasyVPS</h3>
+              <p class="hiw__desc font-[Roboto,sans-serif] text-white text-base leading-6 text-center tablet-md:font-medium tablet-md:text-left tablet-wide:text-lg tablet-wide:leading-7">Powered by ForexVPS.net, with all our Expert Advisors already installed and configured, ready to go.</p>
+              <div class="w-full max-w-[181px] max-[768px]:mx-auto">
+                <a href="#" class="flex items-center justify-center h-12 w-full rounded-full bg-white text-[#46448E] text-sm font-semibold no-underline transition-[filter] duration-200 hover:brightness-95">Apply now</a>
+              </div>
             </div>
           </div>
-          <div class="hiw__right">
-            <div class="hiw__graphic"></div>
+          <div class="hiw__right z-[1] flex shrink-0 items-center p-[60px] min-[1025px]:max-[1240px]:p-10 min-[769px]:max-[1024px]:order-1 min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:justify-center min-[769px]:max-[1024px]:px-6 min-[769px]:max-[1024px]:py-0 max-[768px]:order-1 max-[768px]:w-full max-[768px]:p-0">
+            <div class="hiw__graphic h-[520px] w-[520px] overflow-hidden rounded-3xl opacity-0 min-[769px]:max-[1024px]:h-auto min-[769px]:max-[1024px]:aspect-square min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:max-w-[360px] min-[769px]:max-[1024px]:rounded-[18px] max-[768px]:h-auto max-[768px]:w-full max-[768px]:aspect-square max-[768px]:rounded-none"></div>
           </div>
         </div>
       </div>
 
-      <div class="hiw__card" data-hiw-card="2">
-        <div class="hiw__card-inner" style="background: linear-gradient(63.43deg, #3F64BF 0%, #4B76E3 100%)">
-          <div class="hiw__rocks" data-rocks="3">
+      <div class="hiw__card absolute left-0 top-0 w-full px-[60px] [will-change:transform] min-[1025px]:max-[1240px]:px-10 min-[769px]:max-[1024px]:px-10 max-[768px]:px-3" data-hiw-card="2">
+        <div class="hiw__card-inner relative flex items-center justify-between overflow-hidden rounded-[40px] min-[769px]:max-[1024px]:mx-auto min-[769px]:max-[1024px]:max-w-[640px] min-[769px]:max-[1024px]:flex-col min-[769px]:max-[1024px]:gap-6 min-[769px]:max-[1024px]:p-6 max-[768px]:mx-auto max-[768px]:max-w-[640px] max-[768px]:flex-col max-[768px]:rounded-3xl min-[1025px]:max-[1240px]:gap-0" style="background: linear-gradient(63.43deg, #3F64BF 0%, #4B76E3 100%)">
+          <div class="hiw__rocks pointer-events-none absolute left-1/2 top-1/2 z-0 h-[1040px] w-[1680px] -translate-x-1/2 -translate-y-1/2 max-[1024px]:opacity-40 [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_[data-rock]]:[transform-box:view-box] [&_[data-rock]]:[will-change:transform] [&_[data-rock]]:transition-transform [&_[data-rock]]:duration-[1400ms] [&_[data-rock]]:[transition-timing-function:cubic-bezier(0.05,0.85,0.15,1)]" data-rocks="3">
             <svg width="1680" height="1040" viewBox="0 0 1680 1040" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#cr3clip)">
             <g id="cr3-r14" data-rock="14"><path d="M341.45 646.09L260.73 878.16L275.87 948.79L442.35 994.2L649.19 903.39L689.551 688.98L512.98 545.2L341.45 646.09Z" fill="url(#cr3g0)"/><path d="M260.73 878.16L465.05 830.23L490.1 973.23L442.35 994.201L275.87 948.79L260.73 878.16Z" fill="url(#cr3g1)"/><path d="M260.73 878.16L465.05 830.23L512.98 545.2L341.45 646.09L260.73 878.16Z" fill="url(#cr3g2)"/></g>
@@ -746,25 +767,28 @@
             </defs>
             </svg>
           </div>
-          <div class="hiw__left">
-            <div class="hiw__number"><span class="hiw__number-chevron">&rsaquo;</span><span class="hiw__number-digit">3</span></div>
-            <div class="hiw__content">
-              <h3 class="hiw__title">Drag &amp; drop the EAs</h3>
-              <p class="hiw__desc">Choose from a catalogue of 20+ premium Expert Advisors, and drop it on your trading charts.</p>
-              <a href="#" class="hiw__cta">Apply now
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="3" cy="7.5" r="1.5" fill="#fff" opacity=".6"/><circle cx="7.5" cy="7.5" r="1.5" fill="#fff" opacity=".8"/><circle cx="12" cy="7.5" r="1.5" fill="#fff"/></svg>
-              </a>
+          <div class="hiw__left z-[1] flex h-[640px] w-[640px] shrink-0 flex-col justify-between overflow-hidden px-24 py-16 min-[1025px]:max-[1240px]:h-[640px] min-[1025px]:max-[1240px]:min-w-0 min-[1025px]:max-[1240px]:flex-1 min-[1025px]:max-[1240px]:px-10 min-[769px]:max-[1024px]:order-2 min-[769px]:max-[1024px]:h-auto min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:flex-row min-[769px]:max-[1024px]:items-start min-[769px]:max-[1024px]:justify-start min-[769px]:max-[1024px]:gap-3 min-[769px]:max-[1024px]:px-8 min-[769px]:max-[1024px]:pb-0 min-[769px]:max-[1024px]:pt-6 max-[768px]:order-2 max-[768px]:h-auto max-[768px]:w-full max-[768px]:grow max-[768px]:shrink max-[768px]:px-8 max-[768px]:py-6">
+            <div class="hiw__number flex items-baseline gap-0.5 min-[769px]:max-[1024px]:shrink-0 min-[769px]:max-[1024px]:pt-1.5 max-[768px]:hidden">
+              <span class="hiw__number-chevron font-poppins text-[28px] leading-none text-white/50 min-[1025px]:max-[1240px]:text-[22px] min-[769px]:max-[1024px]:text-base"><svg class="block h-full w-full" xmlns="http://www.w3.org/2000/svg" width="23" height="33" fill="none" viewBox="0 0 23 33"><path fill="#7573d3" d="M0 33v-6.77l16.354-9.76L0 6.709V0l23 13.72v5.5z"/></svg></span>
+              <span class="hiw__number-digit font-semibold text-white/50 text-[56px] leading-[60px] min-[1025px]:max-[1240px]:text-[40px] min-[1025px]:max-[1240px]:leading-[44px] min-[769px]:max-[1024px]:text-[28px] min-[769px]:max-[1024px]:leading-[28px]">3</span>
+            </div>
+            <div class="hiw__content flex flex-col gap-8 min-[769px]:max-[1024px]:min-w-0 min-[769px]:max-[1024px]:flex-1 min-[769px]:max-[1024px]:gap-6 max-[768px]:gap-3">
+              <h3 class="hiw__title text-white font-semibold text-lg leading-7 text-center tablet-md:text-[22px] tablet-md:leading-8 tablet-md:text-left tablet-wide:text-[28px] tablet-wide:leading-10 desktop:text-4xl desktop:leading-[44px]">Drag &amp; drop the EAs</h3>
+              <p class="hiw__desc font-[Roboto,sans-serif] text-white text-base leading-6 text-center tablet-md:font-medium tablet-md:text-left tablet-wide:text-lg tablet-wide:leading-7">Choose from a catalogue of 20+ premium Expert Advisors, and drop it on your trading charts.</p>
+              <div class="w-full max-w-[181px] max-[768px]:mx-auto">
+                <a href="#" class="flex items-center justify-center h-12 w-full rounded-full bg-white text-[#46448E] text-sm font-semibold no-underline transition-[filter] duration-200 hover:brightness-95">Apply now</a>
+              </div>
             </div>
           </div>
-          <div class="hiw__right">
-            <div class="hiw__graphic"></div>
+          <div class="hiw__right z-[1] flex shrink-0 items-center p-[60px] min-[1025px]:max-[1240px]:p-10 min-[769px]:max-[1024px]:order-1 min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:justify-center min-[769px]:max-[1024px]:px-6 min-[769px]:max-[1024px]:py-0 max-[768px]:order-1 max-[768px]:w-full max-[768px]:p-0">
+            <div class="hiw__graphic h-[520px] w-[520px] overflow-hidden rounded-3xl opacity-0 min-[769px]:max-[1024px]:h-auto min-[769px]:max-[1024px]:aspect-square min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:max-w-[360px] min-[769px]:max-[1024px]:rounded-[18px] max-[768px]:h-auto max-[768px]:w-full max-[768px]:aspect-square max-[768px]:rounded-none"></div>
           </div>
         </div>
       </div>
 
-      <div class="hiw__card" data-hiw-card="3">
-        <div class="hiw__card-inner" style="background: linear-gradient(-49.4deg, #205EFB 8.37%, #B36DFF 72.78%)">
-          <div class="hiw__rocks" data-rocks="4">
+      <div class="hiw__card absolute left-0 top-0 w-full px-[60px] [will-change:transform] min-[1025px]:max-[1240px]:px-10 min-[769px]:max-[1024px]:px-10 max-[768px]:px-3" data-hiw-card="3">
+        <div class="hiw__card-inner relative flex items-center justify-between overflow-hidden rounded-[40px] min-[769px]:max-[1024px]:mx-auto min-[769px]:max-[1024px]:max-w-[640px] min-[769px]:max-[1024px]:flex-col min-[769px]:max-[1024px]:gap-6 min-[769px]:max-[1024px]:p-6 max-[768px]:mx-auto max-[768px]:max-w-[640px] max-[768px]:flex-col max-[768px]:rounded-3xl min-[1025px]:max-[1240px]:gap-0" style="background: linear-gradient(-49.4deg, #205EFB 8.37%, #B36DFF 72.78%)">
+          <div class="hiw__rocks pointer-events-none absolute left-1/2 top-1/2 z-0 h-[1040px] w-[1680px] -translate-x-1/2 -translate-y-1/2 max-[1024px]:opacity-40 [&_svg]:block [&_svg]:h-full [&_svg]:w-full [&_[data-rock]]:[transform-box:view-box] [&_[data-rock]]:[will-change:transform] [&_[data-rock]]:transition-transform [&_[data-rock]]:duration-[1400ms] [&_[data-rock]]:[transition-timing-function:cubic-bezier(0.05,0.85,0.15,1)]" data-rocks="4">
             <svg width="1680" height="1040" viewBox="0 0 1680 1040" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#cr4clip)">
             <g id="cr4-r18" data-rock="18"><path d="M413.01 684.83L519.5 695.67L586.49 784.43L583.04 942.5L407 998.94L275.92 918.58L312.81 748.45L413.01 684.83Z" fill="url(#cr4g0)"/><path d="M360.4 718.23L434.45 718.6L558.87 788.61L583.04 942.5L586.49 784.43L519.5 695.67L413.01 684.83L360.4 718.23Z" fill="url(#cr4g1)"/><path d="M275.92 918.58L429.51 887.84L526.79 960.54L407 998.94L275.92 918.58Z" fill="url(#cr4g2)"/></g>
@@ -845,18 +869,21 @@
             </defs>
             </svg>
           </div>
-          <div class="hiw__left">
-            <div class="hiw__number"><span class="hiw__number-chevron">&rsaquo;</span><span class="hiw__number-digit">4</span></div>
-            <div class="hiw__content">
-              <h3 class="hiw__title">Get ready to be amazed</h3>
-              <p class="hiw__desc">Sit back and let our Expert Advisors do the heavy lifting, while you track your results through the user dashboard.</p>
-              <a href="#" class="hiw__cta">Apply now
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="3" cy="7.5" r="1.5" fill="#fff" opacity=".6"/><circle cx="7.5" cy="7.5" r="1.5" fill="#fff" opacity=".8"/><circle cx="12" cy="7.5" r="1.5" fill="#fff"/></svg>
-              </a>
+          <div class="hiw__left z-[1] flex h-[640px] w-[640px] shrink-0 flex-col justify-between overflow-hidden px-24 py-16 min-[1025px]:max-[1240px]:h-[640px] min-[1025px]:max-[1240px]:min-w-0 min-[1025px]:max-[1240px]:flex-1 min-[1025px]:max-[1240px]:px-10 min-[769px]:max-[1024px]:order-2 min-[769px]:max-[1024px]:h-auto min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:flex-row min-[769px]:max-[1024px]:items-start min-[769px]:max-[1024px]:justify-start min-[769px]:max-[1024px]:gap-3 min-[769px]:max-[1024px]:px-8 min-[769px]:max-[1024px]:pb-0 min-[769px]:max-[1024px]:pt-6 max-[768px]:order-2 max-[768px]:h-auto max-[768px]:w-full max-[768px]:grow max-[768px]:shrink max-[768px]:px-8 max-[768px]:py-6">
+            <div class="hiw__number flex items-baseline gap-0.5 min-[769px]:max-[1024px]:shrink-0 min-[769px]:max-[1024px]:pt-1.5 max-[768px]:hidden">
+              <span class="hiw__number-chevron font-poppins text-[28px] leading-none text-white/50 min-[1025px]:max-[1240px]:text-[22px] min-[769px]:max-[1024px]:text-base"><svg class="block h-full w-full" xmlns="http://www.w3.org/2000/svg" width="23" height="33" fill="none" viewBox="0 0 23 33"><path fill="#7573d3" d="M0 33v-6.77l16.354-9.76L0 6.709V0l23 13.72v5.5z"/></svg></span>
+              <span class="hiw__number-digit font-semibold text-white/50 text-[56px] leading-[60px] min-[1025px]:max-[1240px]:text-[40px] min-[1025px]:max-[1240px]:leading-[44px] min-[769px]:max-[1024px]:text-[28px] min-[769px]:max-[1024px]:leading-[28px]">4</span>
+            </div>
+            <div class="hiw__content flex flex-col gap-8 min-[769px]:max-[1024px]:min-w-0 min-[769px]:max-[1024px]:flex-1 min-[769px]:max-[1024px]:gap-6 max-[768px]:gap-3">
+              <h3 class="hiw__title text-white font-semibold text-lg leading-7 text-center tablet-md:text-[22px] tablet-md:leading-8 tablet-md:text-left tablet-wide:text-[28px] tablet-wide:leading-10 desktop:text-4xl desktop:leading-[44px]">Get ready to be amazed</h3>
+              <p class="hiw__desc font-[Roboto,sans-serif] text-white text-base leading-6 text-center tablet-md:font-medium tablet-md:text-left tablet-wide:text-lg tablet-wide:leading-7">Sit back and let your Expert Advisors do the heavy lifting, while you track your results through the user dashboard.</p>
+              <div class="w-full max-w-[181px] max-[768px]:mx-auto">
+                <a href="#" class="flex items-center justify-center h-12 w-full rounded-full bg-white text-[#46448E] text-sm font-semibold no-underline transition-[filter] duration-200 hover:brightness-95">Apply now</a>
+              </div>
             </div>
           </div>
-          <div class="hiw__right">
-            <div class="hiw__graphic"></div>
+          <div class="hiw__right z-[1] flex shrink-0 items-center p-[60px] min-[1025px]:max-[1240px]:p-10 min-[769px]:max-[1024px]:order-1 min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:justify-center min-[769px]:max-[1024px]:px-6 min-[769px]:max-[1024px]:py-0 max-[768px]:order-1 max-[768px]:w-full max-[768px]:p-0">
+            <div class="hiw__graphic h-[520px] w-[520px] overflow-hidden rounded-3xl opacity-0 min-[769px]:max-[1024px]:h-auto min-[769px]:max-[1024px]:aspect-square min-[769px]:max-[1024px]:w-full min-[769px]:max-[1024px]:max-w-[360px] min-[769px]:max-[1024px]:rounded-[18px] max-[768px]:h-auto max-[768px]:w-full max-[768px]:aspect-square max-[768px]:rounded-none"></div>
           </div>
         </div>
       </div>
