@@ -672,6 +672,7 @@
     if (cards.length < 2) return null;
 
     var activatedCards = {};
+    var cardFadeActive = [];
     var lottieAnims = [];
     var lottiePlayingState = [];
     var lottieLoadingSet = {};
@@ -679,7 +680,6 @@
     var animateRocks = window.innerWidth > 1024;
     var raf1 = 0;
     var raf2 = 0;
-    var stickyStart = 0;
     var scrollTicking = false;
     var isSnapping = false;
     var lastScrolledForSnap = -Infinity;
@@ -702,11 +702,16 @@
       return scrollContainer.clientHeight;
     }
 
-    function getElementTopInScroller(el) {
-      var rect = el.getBoundingClientRect();
-      if (isWindowContainer()) return rect.top + getScrollTop();
-      var scrollerRect = scrollContainer.getBoundingClientRect();
-      return rect.top - scrollerRect.top + getScrollTop();
+    function getSectionTop() {
+      var rect = section.getBoundingClientRect();
+      if (isWindowContainer()) return rect.top;
+      return rect.top - scrollContainer.getBoundingClientRect().top;
+    }
+
+    function computeScrolled() {
+      var hh = headerEl ? headerEl.offsetHeight : 0;
+      var s = -(getSectionTop() + hh);
+      return s < 0 ? 0 : s;
     }
 
     function preventScrollDefault(e) { e.preventDefault(); }
@@ -775,7 +780,7 @@
       lottieLoadingSet[cardIndex] = true;
       lottieAnims[cardIndex] = lottie.loadAnimation({
         container: graphic,
-        renderer: 'svg',
+        renderer: 'canvas',
         loop: true,
         autoplay: false,
         path: path
@@ -801,9 +806,16 @@
       var graphic = card.querySelector('.hiw__graphic');
       if (!graphic) return;
 
+      if (lottieAnims[cardIndex]) {
+        lottieAnims[cardIndex].play();
+        lottiePlayingState[cardIndex] = true;
+      }
+
+      cardFadeActive[cardIndex] = true;
       var startTime = performance.now();
       var idx = cardIndex;
       (function fadeIn(now) {
+        if (!cardFadeActive[idx]) return;
         var elapsed = now - startTime;
         var p = Math.min(elapsed / ROCK_ANIM_DURATION, 1);
         graphic.style.opacity = p;
@@ -811,11 +823,27 @@
           requestAnimationFrame(fadeIn);
           return;
         }
-        if (lottieAnims[idx]) {
-          lottieAnims[idx].play();
-          lottiePlayingState[idx] = true;
-        }
       })(startTime);
+    }
+
+    function deactivateCard(cardIndex) {
+      if (!activatedCards[cardIndex]) return;
+      activatedCards[cardIndex] = false;
+      cardFadeActive[cardIndex] = false;
+
+      var card = cards[cardIndex];
+      if (animateRocks) {
+        var rocksContainer = card.querySelector('.hiw__rocks');
+        if (rocksContainer) initRocks(cardIndex, rocksContainer);
+      }
+
+      var graphic = card.querySelector('.hiw__graphic');
+      if (graphic) graphic.style.opacity = '0';
+
+      if (lottieAnims[cardIndex] && lottiePlayingState[cardIndex]) {
+        lottieAnims[cardIndex].pause();
+        lottiePlayingState[cardIndex] = false;
+      }
     }
 
     function measure() {
@@ -824,11 +852,9 @@
       var totalTransition = SETTLE_PAUSE + (cards.length - 1) * cardStep + HOLD_PX;
       var headerHeight = headerEl ? headerEl.offsetHeight : 0;
       section.style.height = (headerHeight + vh + totalTransition) + 'px';
-      if (stickyEl) {
-        stickyStart = getElementTopInScroller(stickyEl);
-      }
       cards.forEach(function (card, i) {
         if (i === 0) card.style.transform = 'none';
+        else card.style.transform = 'translateY(' + vh + 'px)';
       });
     }
 
@@ -836,8 +862,7 @@
       var sectionRect = section.getBoundingClientRect();
       var stickyRect = stickyEl ? stickyEl.getBoundingClientRect() : null;
       var vh = getViewportHeight();
-      var scrolled = getScrollTop() - stickyStart;
-      if (scrolled < 0) scrolled = 0;
+      var scrolled = computeScrolled();
 
       var cardStep = HOLD_PX + TRANSITION_PX;
 
@@ -851,6 +876,9 @@
         activateCard(0);
         loadLottieForCard(0);
       }
+      if (activatedCards[0] && stickyTop >= vh) {
+        deactivateCard(0);
+      }
 
       for (var i = 1; i < cards.length; i++) {
         var start = SETTLE_PAUSE + (i - 1) * cardStep + HOLD_PX;
@@ -863,6 +891,10 @@
           t = 1;
         } else {
           t = (scrolled - start) / TRANSITION_PX;
+        }
+
+        if (t === 0) {
+          deactivateCard(i);
         }
 
         if (t >= 1) {
@@ -921,7 +953,9 @@
           var snapEnd   = snapStart + TRANSITION_PX;
           if (lastScrolledForSnap <= snapStart && scrolled > snapStart && scrolled < snapEnd) {
             lastScrolledForSnap = snapEnd;
-            snapScroll(getScrollTop(), stickyStart + snapEnd);
+            activateCard(s);
+            loadLottieForCard(s);
+            snapScroll(getScrollTop(), getScrollTop() + (snapEnd - scrolled));
             break;
           }
         }
@@ -949,6 +983,9 @@
         var rocksContainer = card.querySelector('.hiw__rocks');
         if (rocksContainer) initRocks(i, rocksContainer);
       }
+      var graphic = card.querySelector('.hiw__graphic');
+      if (graphic) graphic.style.opacity = '0';
+      if (i > 0) card.style.transform = 'translateY(' + window.innerHeight + 'px)';
     });
 
     scrollContainer = findScrollContainer(section);
@@ -959,6 +996,23 @@
     raf1 = requestAnimationFrame(function () {
       raf2 = requestAnimationFrame(function () {
         onScroll();
+
+        var initScrolled = computeScrolled();
+        if (initScrolled > 0) {
+          var cs = HOLD_PX + TRANSITION_PX;
+          for (var s = 1; s < cards.length; s++) {
+            var ss = SETTLE_PAUSE + (s - 1) * cs + HOLD_PX;
+            var se = ss + TRANSITION_PX;
+            if (initScrolled > ss && initScrolled < se) {
+              lastScrolledForSnap = ss;
+              snapScroll(getScrollTop(), getScrollTop() + (se - initScrolled));
+              break;
+            }
+          }
+          if (!isSnapping) {
+            lastScrolledForSnap = initScrolled;
+          }
+        }
       });
     });
 
