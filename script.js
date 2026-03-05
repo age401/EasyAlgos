@@ -154,7 +154,7 @@
     });
   }
 
-  var WIDE_BG_DESIGN_WIDTH = 7040;
+  var WIDE_BG_RATIO = 7040 / 3440;
 
   function updateBgVisibility() {
     var imgs = document.querySelectorAll('.hero__bg-img');
@@ -173,8 +173,8 @@
     var wrapper = document.querySelector('.hero__bg-wrapper');
     if (wrapper) {
       if (width >= 2049) {
-        var dpr = window.devicePixelRatio || 1;
-        wrapper.style.width = (WIDE_BG_DESIGN_WIDTH / dpr) + 'px';
+        var physicalWidth = screen.width * (window.devicePixelRatio || 1);
+        wrapper.style.width = (physicalWidth * WIDE_BG_RATIO) + 'px';
       } else {
         wrapper.style.width = '';
       }
