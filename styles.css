@@ -215,6 +215,12 @@ body {
   z-index: 0;
 }
 
+@media (min-width: 2561px) {
+  .hero__bg-wrapper {
+    width: 7040px;
+  }
+}
+
 .hero__bg-wrapper img {
   display: block;
   width: 100%;
