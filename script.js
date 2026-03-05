@@ -161,8 +161,8 @@
     imgs.forEach(function (img) {
       var bp = img.dataset.breakpoint;
       var show = false;
-      if (bp === '3440' && width >= 2561) show = true;
-      if (bp === '2560' && width >= 1440 && width < 2561) show = true;
+      if (bp === '3440' && width >= 2049) show = true;
+      if (bp === '2560' && width >= 1440 && width < 2049) show = true;
       if (bp === '1440' && width >= 768 && width < 1440) show = true;
       if (bp === '768' && width < 768) show = true;
       img.style.display = show ? 'block' : 'none';

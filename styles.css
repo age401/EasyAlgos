@@ -215,9 +215,9 @@ body {
   z-index: 0;
 }
 
-@media (min-width: 2561px) {
+@media (min-width: 2049px) {
   .hero__bg-wrapper {
-    width: 7040px;
+    width: calc(100vw * 2.0465);
   }
 }
 
