@@ -154,8 +154,6 @@
     });
   }
 
-  var WIDE_BG_RATIO = 7040 / 3440;
-
   function updateBgVisibility() {
     var imgs = document.querySelectorAll('.hero__bg-img');
     var width = window.innerWidth;
@@ -169,16 +167,6 @@
       if (bp === '768' && width < 768) show = true;
       img.style.display = show ? 'block' : 'none';
     });
-
-    var wrapper = document.querySelector('.hero__bg-wrapper');
-    if (wrapper) {
-      if (width >= 2049) {
-        var physicalWidth = screen.width * (window.devicePixelRatio || 1);
-        wrapper.style.width = (physicalWidth * WIDE_BG_RATIO) + 'px';
-      } else {
-        wrapper.style.width = '';
-      }
-    }
   }
 
   function onHeroResize() {
