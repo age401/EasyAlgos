@@ -215,11 +215,7 @@ body {
   z-index: 0;
 }
 
-@media (min-width: 2049px) {
-  .hero__bg-wrapper {
-    width: calc(100vw * 2.0465);
-  }
-}
+/* Wide breakpoint hero bg width is set via JS to compensate for OS scaling */
 
 .hero__bg-wrapper img {
   display: block;
