@@ -217,7 +217,7 @@ body {
 
 @media (min-width: 2049px) {
   .hero__bg-wrapper {
-    width: calc(100vw * 2.0465);
+    width: 7040px; /* no-JS fallback; JS overrides with DPR-compensated value */
   }
 }
 

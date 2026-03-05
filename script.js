@@ -167,6 +167,21 @@
       if (bp === '768' && width < 768) show = true;
       img.style.display = show ? 'block' : 'none';
     });
+
+    // For the wide (3440) background, compensate for OS display scaling:
+    // at 100% OS zoom it renders at 7040px physical; at 125% zoom it shrinks
+    // proportionally (7040/1.25 physical), so the image stays the same visual
+    // proportion relative to the physical viewport at any DPR level.
+    // Formula: css_width = 7040 / DPR^2
+    var wrapper = document.querySelector('.hero__bg-wrapper');
+    if (wrapper) {
+      if (width >= 2049) {
+        var dpr = window.devicePixelRatio || 1;
+        wrapper.style.width = Math.round(7040 / (dpr * dpr)) + 'px';
+      } else {
+        wrapper.style.removeProperty('width');
+      }
+    }
   }
 
   function onHeroResize() {
